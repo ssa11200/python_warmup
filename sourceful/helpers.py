@@ -12,7 +12,7 @@ def polarity_search_keword(degree, type):
         "positive": lambda degree: "excited"
         if degree > 0 and degree <= 0.5
         else "happy",
-        "negetive": lambda degree: "heartbroken"
+        "negative": lambda degree: "heartbroken"
         if degree > 0 and degree <= 0.5
         else "sad",
         "neutral": lambda degree: "unhappy"

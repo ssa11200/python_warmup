@@ -24,8 +24,8 @@ def find_music_for_feeling(feeling_polarity):
 def analyse_feeling_polarity(feeling):
     url = "https://sentim-api.herokuapp.com/api/v1/"
     body = {"text": feeling}
-    # response = do_request(url, "post", body=body)
-    response = mock_sentiment_request()
+    response = do_request(url, "post", body=body)
+    # response = mock_sentiment_request()
     polarity = response["result"]
     return polarity
 
