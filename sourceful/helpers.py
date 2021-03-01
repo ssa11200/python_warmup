@@ -49,7 +49,7 @@ def do_request(url, method, **options):
 # mock sentiment api call in cases the api is down
 def mock_sentiment_request():
     random_int = get_random_integer(3)
-    possible_types = {0: "positive", 1: "negetive", 2: "neutral"}
+    possible_types = {0: "positive", 1: "negative", 2: "neutral"}
     selected_type = possible_types[random_int]
     polarity_value = get_decimal_number(0, 1)
     response = {"result": {"type": selected_type, "polarity": polarity_value}}
