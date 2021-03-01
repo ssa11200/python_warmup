@@ -9,18 +9,12 @@ load_dotenv()
 
 def polarity_search_keword(degree, type):
     polarity_types = {
-        "positive": lambda degree: "excited"
-        if degree > 0 and degree <= 0.5
-        else "happy",
-        "negative": lambda degree: "heartbroken"
-        if degree > 0 and degree <= 0.5
-        else "sad",
-        "neutral": lambda degree: "unhappy"
-        if degree > 0 and degree <= 0.5
-        else "unfortunate",
+        "positive": "excited" if degree > 0 and degree <= 0.5 else "happy",
+        "negative": "sad" if degree > 0 and degree <= 0.5 else "heartbroken",
+        "neutral": "unhappy" if degree > 0 and degree <= 0.5 else "unfortunate",
     }
 
-    return polarity_types[type](degree)
+    return polarity_types[type]
 
 
 def do_request(url, method, **options):
