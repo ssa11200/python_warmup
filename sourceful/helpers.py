@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 from .errors import raise_api_error, raise_body_error, raise_missing_env
 from .utils import get_decimal_number, get_random_integer
 
-load_dotenv()
-
 
 def polarity_search_keword(degree, type):
     polarity_types = {
@@ -48,13 +46,3 @@ def mock_sentiment_request():
     polarity_value = get_decimal_number(0, 1)
     response = {"result": {"type": selected_type, "polarity": polarity_value}}
     return response
-
-
-def check_envs():
-    envs_list = ["DETECT_LANGUAGE_API_KEY"]
-
-    for env in envs_list:
-        value = environ.get(env)
-
-        if value == "" or value is None:
-            raise_missing_env(env)

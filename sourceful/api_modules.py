@@ -5,14 +5,16 @@ from .helpers import (
     do_request,
     mock_sentiment_request,
 )
+from sourceful.Config import Config
 
 
 def find_music_for_feeling(feeling_polarity):
     polarity_degree = feeling_polarity["polarity"]
     polarity_type = feeling_polarity["type"]
     keyword = polarity_search_keword(polarity_degree, polarity_type)
-    url = "https://itunes.apple.com/search?term={}&media=music".format(keyword)
-    response = do_request(url, "get")
+    query = "search?term={}&media=music".format(keyword)
+    itunes_url = Config.envs("ITUNES_URL") + query
+    response = do_request(itunes_url, "get")
     all_musics = response["results"]
     total_musics = len(all_musics)
     random_number = get_random_integer(total_musics)
@@ -22,9 +24,9 @@ def find_music_for_feeling(feeling_polarity):
 
 # in cases this api is down please use mock_sentiment_request instead
 def analyse_feeling_polarity(feeling):
-    url = "https://sentim-api.herokuapp.com/api/v1/"
+    sentiment_url = Config.envs("SENTIMENT_URL")
     body = {"text": feeling}
-    response = do_request(url, "post", body=body)
+    response = do_request(sentiment_url, "post", body=body)
     # response = mock_sentiment_request()
     polarity = response["result"]
     return polarity
@@ -33,13 +35,17 @@ def analyse_feeling_polarity(feeling):
 def find_lyrics_for_music(music):
     artist = music["artistName"]
     music_name = music["trackName"]
-    url = "https://api.lyrics.ovh/v1/{}/{}".format(artist, music_name)
+    params = "{}/{}".format(artist, music_name)
+    lyric_url = Config.envs("LYRIC_URL") + params
 
     # this api does not retun a response stating that lyrics not found so that I had to handle the error like this
     try:
-        response = requests.get(url, timeout=5).json()
+        response = requests.get(lyric_url, timeout=15).json()
         lyrics = response["lyrics"]
-    except:
+        # response.raise_for_status()
+    except Exception as error:
+        message = type(error).__name__
+        print(message)
         lyrics = "Lyrics Not Found!"
 
     return lyrics

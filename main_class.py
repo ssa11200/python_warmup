@@ -1,13 +1,7 @@
 from os import environ
-from dotenv import load_dotenv
 from sourceful.MusicMatcher import MusicMatcher
-from sourceful.helpers import check_envs
+from sourceful.Config import Config
 from sourceful.validations import validate_language
-
-
-# env checking
-load_dotenv()
-check_envs()
 
 
 def get_user_input():
@@ -37,6 +31,7 @@ def display_results(music_details, music_lyrics):
 
 
 if __name__ == "__main__":
+    Config.check_env()
     feeling_input = get_user_input()
     my_music = MusicMatcher(feeling_input)
     my_music.match_music()

@@ -1,16 +1,11 @@
 from os import environ
-from dotenv import load_dotenv
 from sourceful.api_modules import (
     find_music_for_feeling,
     find_lyrics_for_music,
     analyse_feeling_polarity,
 )
 from sourceful.validations import validate_language
-from sourceful.helpers import check_envs
-
-# env checking
-load_dotenv()
-check_envs()
+from sourceful.Config import Config
 
 
 def get_user_input():
@@ -40,6 +35,7 @@ def display_results(music_details, music_lyrics):
 
 
 if __name__ == "__main__":
+    Config.check_env()
     feeling_input = get_user_input()
     feeling_polarity = analyse_feeling_polarity(feeling_input)
     music_details = find_music_for_feeling(feeling_polarity)
